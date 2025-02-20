@@ -28,18 +28,26 @@ class MemberController extends Controller
 
     public function update(Request $request, int $member)
     {
-        Member::where('id', $member)
+        $updated = Member::where('id', $member)
             ->update([
                 'name' => $request->get('name')
             ]);
 
+        if ($updated) {
             return response()->json(['message' => 'Member updated with success']);
+        }
+
+        return response()->json(['message' => 'Member not found'], 404);
     }
 
     public function destroy(int $member)
     {
-        Member::destroy($member);
+        $deleted = Member::destroy($member);
 
-        return response()->json(['message' => 'Member deleted with success']);
+        if ($deleted) {
+            return response()->json(['message' => 'Member deleted with success']);
+        }
+
+        return response()->json(['message' => 'Member not found'], 404);
     }
 }

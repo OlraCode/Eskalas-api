@@ -28,18 +28,26 @@ class RoleController extends Controller
 
     public function update(Request $request, int $role)
     {
-        Role::where('id', $role)
+        $updated = Role::where('id', $role)
             ->update([
                 'name' => $request->get('name')
             ]);
 
-        return response()->json(['message' => 'Role updated with success']);
+        if ($updated) {
+            return response()->json(['message' => 'Role updated with success']);
+        }
+
+        return response()->json(['message' => 'Role not found'], 404);
     }
 
     public function destroy(int $role)
     {
-        Role::destroy($role);
+        $deleted = Role::destroy($role);
 
-        return response()->json(['message' => 'Role deleted with success']);
+        if ($deleted) {
+            return response()->json(['message' => 'Role deleted with success']);
+        }
+
+        return response()->json(['message' => 'Role not found'], 404);
     }
 }

@@ -29,17 +29,25 @@ class ScheduleController extends Controller
 
     public function update(Request $request, int $schedule)
     {
-        Schedule::where('id', $schedule)
+        $updated = Schedule::where('id', $schedule)
             ->update(['date' => \DateTime::createFromFormat('d/m/Y', $request->get('date'))]);
 
-        return response()->json(['message' => 'Schedule updated with success']);
+        if ($updated) {
+            return response()->json(['message' => 'Schedule updated with success']);
+        }
+
+        return response()->json(['message' => 'Schedule not found'], 404);
     }
 
     public function destroy(int $schedule)
     {
-        Schedule::destroy($schedule);
+        $deleted = Schedule::destroy($schedule);
 
-        return response()->json(['message' => 'Schedule deleted with success']);
+        if ($deleted) {
+            return response()->json(['message' => 'Schedule deleted with success']);
+        }
+
+        return response()->json(['message' => 'Schedule not found'], 404);
     }
 
     public function addMember(Schedule $schedule, int $member)
