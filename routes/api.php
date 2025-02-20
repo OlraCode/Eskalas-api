@@ -12,6 +12,11 @@ Route::get('/user', function (Request $request) {
 
 
 Route::apiResource('/schedules', ScheduleController::class);
+Route::controller(ScheduleController::class)->group(function () {
+
+    Route::post('/schedules/{schedule}/members/{member}', 'addMember');
+    Route::delete('/schedules/{schedule}/members/{member}', 'removeMember');
+});
 
 Route::apiResource('/members', MemberController::class);
 

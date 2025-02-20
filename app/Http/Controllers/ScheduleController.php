@@ -41,4 +41,18 @@ class ScheduleController extends Controller
 
         return response()->json(['message' => 'Schedule deleted with success']);
     }
+
+    public function addMember(Schedule $schedule, int $member)
+    {
+        $schedule->members()->syncWithoutDetaching([$member]);
+
+        return response()->json(['message' => 'Member added to schedule with success']);
+    }
+
+    public function removeMember(Schedule $schedule, int $member)
+    {
+        $schedule->members()->detach($member);
+
+        return response()->json(['message' => 'Remove member from schedule with success']);
+    }
 }
